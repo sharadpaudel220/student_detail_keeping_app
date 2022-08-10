@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
-import 'add_student_page.dart';
-import 'list_student_page.dart';
+import 'package:project/pages/add_student_page.dart';
+import 'package:project/pages/list_student_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -18,14 +17,15 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Student Detail Keeping App'),
+            Text('Flutter FireStore CRUD'),
             ElevatedButton(
               onPressed: () => {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddStudentPage(),
-                    ))
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddStudentPage(),
+                  ),
+                )
               },
               child: Text('Add', style: TextStyle(fontSize: 20.0)),
               style: ElevatedButton.styleFrom(primary: Colors.deepPurple),

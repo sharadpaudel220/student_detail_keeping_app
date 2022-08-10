@@ -1,22 +1,42 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:project/pages/home_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Student Detail Keeping App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        // CHeck for Errors
+        if (snapshot.hasError) {
+          print("Something went Wrong");
+        }
+        // once Completed, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return MaterialApp(
+            title: 'Flutter Firestore CRUD',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: HomePage(),
+          );
+        }
+        return CircularProgressIndicator();
+      },
     );
   }
 }
