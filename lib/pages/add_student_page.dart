@@ -13,26 +13,26 @@ class _AddStudentPageState extends State<AddStudentPage> {
 
   var name = "";
   var email = "";
-  var password = "";
+  var grade = "";
   // Create a text controller and use it to retrieve the current value
   // of the TextField.
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final gradeController = TextEditingController();
 
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
     nameController.dispose();
     emailController.dispose();
-    passwordController.dispose();
+    gradeController.dispose();
     super.dispose();
   }
 
   clearText() {
     nameController.clear();
     emailController.clear();
-    passwordController.clear();
+    gradeController.clear();
   }
 
   // Adding Student
@@ -41,7 +41,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
 
   Future<void> addUser() {
     return students
-        .add({'name': name, 'email': email, 'password': password})
+        .add({'name': name, 'email': email, 'grade': grade})
         .then((value) => print('User Added'))
         .catchError((error) => print('Failed to Add user: $error'));
   }
@@ -104,18 +104,17 @@ class _AddStudentPageState extends State<AddStudentPage> {
                 margin: EdgeInsets.symmetric(vertical: 10.0),
                 child: TextFormField(
                   autofocus: false,
-                  obscureText: true,
                   decoration: InputDecoration(
-                    labelText: 'Password: ',
+                    labelText: 'Grade: ',
                     labelStyle: TextStyle(fontSize: 20.0),
                     border: OutlineInputBorder(),
                     errorStyle:
                         TextStyle(color: Colors.redAccent, fontSize: 15),
                   ),
-                  controller: passwordController,
+                  controller: gradeController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please Enter Password';
+                      return 'Please enter a grade';
                     }
                     return null;
                   },
@@ -132,7 +131,7 @@ class _AddStudentPageState extends State<AddStudentPage> {
                           setState(() {
                             name = nameController.text;
                             email = emailController.text;
-                            password = passwordController.text;
+                            grade = gradeController.text;
                             addUser();
                             clearText();
                           });

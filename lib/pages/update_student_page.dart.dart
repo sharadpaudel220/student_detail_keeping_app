@@ -16,10 +16,10 @@ class _UpdateStudentPageState extends State<UpdateStudentPage> {
   CollectionReference students =
       FirebaseFirestore.instance.collection('students');
 
-  Future<void> updateUser(id, name, email, password) {
+  Future<void> updateUser(id, name, email, grade) {
     return students
         .doc(id)
-        .update({'name': name, 'email': email, 'password': password})
+        .update({'name': name, 'email': email, 'grade': grade})
         .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
@@ -50,7 +50,7 @@ class _UpdateStudentPageState extends State<UpdateStudentPage> {
               var data = snapshot.data!.data();
               var name = data!['name'];
               var email = data['email'];
-              var password = data['password'];
+              var grade = data['grade'];
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
                 child: ListView(
@@ -102,12 +102,12 @@ class _UpdateStudentPageState extends State<UpdateStudentPage> {
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 10.0),
                       child: TextFormField(
-                        initialValue: password,
+                        initialValue: grade,
                         autofocus: false,
-                        onChanged: (value) => password = value,
+                        onChanged: (value) => grade = value,
                         obscureText: true,
                         decoration: InputDecoration(
-                          labelText: 'Password: ',
+                          labelText: 'grade: ',
                           labelStyle: TextStyle(fontSize: 20.0),
                           border: OutlineInputBorder(),
                           errorStyle:
@@ -115,7 +115,7 @@ class _UpdateStudentPageState extends State<UpdateStudentPage> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please Enter Password';
+                            return 'Please Enter grade';
                           }
                           return null;
                         },
@@ -129,7 +129,7 @@ class _UpdateStudentPageState extends State<UpdateStudentPage> {
                             onPressed: () {
                               // Validate returns true if the form is valid, otherwise false.
                               if (_formKey.currentState!.validate()) {
-                                updateUser(widget.id, name, email, password);
+                                updateUser(widget.id, name, email, grade);
                                 Navigator.pop(context);
                               }
                             },
